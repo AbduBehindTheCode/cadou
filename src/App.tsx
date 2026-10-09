@@ -8,6 +8,12 @@ type ReservationState = {
   message: string;
 };
 
+const HIDDEN_DELIVERY_NOTES = new Set([
+  'livraison à la maison',
+  'pratique pour le voyage',
+  'pour la maison',
+]);
+
 const DELIVERY_META: Record<
   Product['delivery_type'],
   { label: string; explanation: string; tone: 'pink' | 'peach' | 'lavender' | 'neutral' }
@@ -177,9 +183,7 @@ function App() {
       <header className="topbar">
         <div className="brand-block">
           <span className="tag">Baby Girl el 7alazouna</span>
-          <h1>Notre liste bébé</h1>
         </div>
-        <p className="subtitle">merciiiiiii beaucoupppp</p>
       </header>
 
       {successMessage ? (
@@ -222,7 +226,14 @@ function App() {
           {products.map((product) => {
             const meta = DELIVERY_META[product.delivery_type];
             const isReserved = product.status === 'reserved';
-            const displayShortNote = product.short_note && product.short_note !== meta.label ? product.short_note : '';
+            const shortNote = product.short_note?.trim();
+            const normalizedShortNote = shortNote?.toLocaleLowerCase('fr');
+            const displayShortNote =
+              shortNote &&
+              shortNote !== meta.label &&
+              !HIDDEN_DELIVERY_NOTES.has(normalizedShortNote ?? '')
+                ? shortNote
+                : '';
 
             return (
               <article
