@@ -13,12 +13,12 @@ const DELIVERY_META: Record<
   { label: string; explanation: string; tone: 'pink' | 'peach' | 'lavender' | 'neutral' }
 > = {
   small_travel_item: {
-    label: 'Pratique pour le voyage',
+    label: 'On l’emmène à Vienne',
     explanation: 'Petit article. Nous pouvons le transporter depuis la Tunisie en avion.',
     tone: 'pink',
   },
   large_home_delivery: {
-    label: 'Pour la maison',
+    label: 'Livraison à Vienne',
     explanation: 'Grand article. Il peut être livré à la maison ou acheté en Europe.',
     tone: 'peach',
   },
