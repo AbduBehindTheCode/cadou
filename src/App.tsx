@@ -81,6 +81,8 @@ function App() {
 
   useEffect(() => {
     let active = true;
+    const loadingStartedAt = Date.now();
+    let loadingTimer: ReturnType<typeof setTimeout>;
 
     setIsLoading(true);
 
@@ -89,11 +91,18 @@ function App() {
         return;
       }
       setProducts(loadedProducts);
-      setIsLoading(false);
+
+      const remainingLoadingTime = Math.max(0, 5000 - (Date.now() - loadingStartedAt));
+      loadingTimer = setTimeout(() => {
+        if (active) {
+          setIsLoading(false);
+        }
+      }, remainingLoadingTime);
     });
 
     return () => {
       active = false;
+      clearTimeout(loadingTimer);
     };
   }, []);
 
@@ -167,7 +176,7 @@ function App() {
     <div className="app-shell">
       <header className="topbar">
         <div className="brand-block">
-          <span className="tag">Baby Girl eddenya</span>
+          <span className="tag">Baby Girl el 7alazouna</span>
           <h1>Notre liste bébé</h1>
         </div>
         <p className="subtitle">merciiiiiii beaucoupppp</p>
@@ -190,8 +199,8 @@ function App() {
               <div className="swing-rope rope-right" />
             </div>
             <div className="loader-text-wrap">
-              <p className="loader-label">Baby Girl Edenya</p>
-              <h2>Chargement de notre liste...</h2>
+              <p className="loader-label">Baby Girl 7alazouna</p>
+              <h2>Un instant, bébé fait sa sélection…</h2>
               <div className="loading-dots" aria-hidden="true">
                 <span />
                 <span />
@@ -206,7 +215,7 @@ function App() {
             <div className="empty-state">
               <div className="empty-icon">♡</div>
               <h2>Notre liste se prépare</h2>
-              <p>Nous ajoutons les premiers petits trésors pour Edenya.</p>
+              <p>Nous ajoutons les premiers petits trésors pour 7alazouna.</p>
             </div>
           ) : null}
 
