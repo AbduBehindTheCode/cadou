@@ -34,6 +34,21 @@ const DELIVERY_META: Record<
   },
 };
 
+function getProductImageUrl(imageUrl: string): string {
+  if (/^(https?:)?\/\//i.test(imageUrl) || imageUrl.startsWith('data:')) {
+    return imageUrl;
+  }
+
+  const basePath = import.meta.env.BASE_URL;
+  const cleanBasePath = basePath.replace(/^\/+|\/+$/g, '');
+  const cleanImagePath = imageUrl.replace(/^\/+/, '');
+  const relativeImagePath = cleanImagePath.startsWith(`${cleanBasePath}/`)
+    ? cleanImagePath.slice(cleanBasePath.length + 1)
+    : cleanImagePath;
+
+  return `${basePath}${relativeImagePath}`;
+}
+
 async function loadProducts(): Promise<Product[]> {
   if (!supabase) {
     return [];
@@ -206,7 +221,7 @@ function App() {
                 className={`product-card ${isReserved ? 'reserved' : 'available'}`}
               >
               <div className="image-wrap">
-                <img src={product.image_url} alt={product.name} />
+                <img src={getProductImageUrl(product.image_url)} alt={product.name} />
                 <span className={`status-badge ${isReserved ? 'reserved' : 'available'}`}>
                   {isReserved ? 'Réservé' : 'Disponible'}
                 </span>
@@ -277,7 +292,7 @@ function App() {
               ×
             </button>
             <div className="modal-image-wrap">
-              <img src={selectedProduct.image_url} alt={selectedProduct.name} />
+              <img src={getProductImageUrl(selectedProduct.image_url)} alt={selectedProduct.name} />
             </div>
             <div className="modal-body">
               <span className={`status-badge ${selectedProduct.status === 'reserved' ? 'reserved' : 'available'}`}>
