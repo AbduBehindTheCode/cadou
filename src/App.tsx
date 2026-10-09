@@ -155,7 +155,7 @@ function App() {
           <span className="tag">Baby Girl eddenya</span>
           <h1>Notre liste bébé</h1>
         </div>
-        <p className="subtitle">Une petite liste de choses que nous aimons pour ce nouveau chapitre.</p>
+        <p className="subtitle">merciiiiiii beaucoupppp</p>
       </header>
 
       {successMessage ? (
