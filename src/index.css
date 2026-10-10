@@ -416,6 +416,13 @@ h1 {
   margin: 0;
 }
 
+.delivery-info-box strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #754156;
+  font-size: 0.76rem;
+}
+
 .card-actions {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -495,6 +502,42 @@ h1 {
 
 .reserve-modal {
   padding: 20px 18px 18px;
+}
+
+.link-preview-modal {
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+
+.link-preview-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffe5ef;
+  color: #a4476a;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.link-preview-modal h3 {
+  margin: 0 28px 10px;
+  color: #4d2e39;
+  font-size: 1.35rem;
+}
+
+.link-preview-modal p {
+  margin: 0 0 20px;
+  color: #654b56;
+  font-size: 0.96rem;
+}
+
+.link-preview-action {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
 }
 
 .close-button {

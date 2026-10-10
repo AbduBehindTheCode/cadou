@@ -19,23 +19,23 @@ const DELIVERY_META: Record<
   { label: string; explanation: string; tone: 'pink' | 'peach' | 'lavender' | 'neutral' }
 > = {
   small_travel_item: {
-    label: 'On l’emmène à Vienne',
-    explanation: 'Petit article. Nous pouvons le transporter depuis la Tunisie en avion.',
+    label: 'Dans nos bagages jusqu’à Vienne',
+    explanation: 'Comme ce petit article se transporte facilement, nous le rapporterons avec nous de Tunisie à Vienne.',
     tone: 'pink',
   },
   large_home_delivery: {
     label: 'Livraison à Vienne',
-    explanation: 'Grand article. Il peut être livré à la maison ou acheté en Europe.',
+    explanation: 'Comme cet article est encombrant, le plus simple est de le faire livrer directement chez nous à Vienne.',
     tone: 'peach',
   },
   europe_only: {
     label: 'Disponibilité Europe',
-    explanation: 'Cet article est plus simple à acheter en Europe ou à faire livrer à la maison.',
+    explanation: 'Cet article est plus facile à trouver ou à acheter en Europe.',
     tone: 'lavender',
   },
   general: {
     label: 'À voir',
-    explanation: 'Cet article est simple à organiser et à ajuster selon nos besoins.',
+    explanation: 'Nous verrons ensemble la meilleure façon de nous procurer cet article.',
     tone: 'neutral',
   },
 };
@@ -76,6 +76,7 @@ function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [productLinkPreview, setProductLinkPreview] = useState<Product | null>(null);
   const [reserveState, setReserveState] = useState<ReservationState>({
     productId: null,
     reserverName: '',
@@ -272,14 +273,19 @@ function App() {
 
                 {deliveryInfo === product.id ? (
                   <div className="delivery-info-box">
-                    <p>{product.delivery_note}</p>
+                    <strong>Pourquoi ce mode d’arrivée ?</strong>
+                    <p>{meta.explanation}</p>
                   </div>
                 ) : null}
 
                 <div className="card-actions">
-                  <a href={product.product_url} target="_blank" rel="noreferrer" className="shop-link">
+                  <button
+                    type="button"
+                    className="shop-link"
+                    onClick={() => setProductLinkPreview(product)}
+                  >
                     Voir l’article
-                  </a>
+                  </button>
 
                   <button
                     type="button"
@@ -328,6 +334,42 @@ function App() {
               </p>
             </div>
           </div>
+        </div>
+      ) : null}
+
+      {productLinkPreview ? (
+        <div className="modal-overlay" onClick={() => setProductLinkPreview(null)}>
+          <section
+            className="modal-card link-preview-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="link-preview-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="close-button"
+              onClick={() => setProductLinkPreview(null)}
+              aria-label="Fermer"
+            >
+              ×
+            </button>
+            <div className="link-preview-icon" aria-hidden="true">↗</div>
+            <h3 id="link-preview-title">Un exemple, tout simplement</h3>
+            <p>
+              Le lien montre une idée du cadeau. Le modèle exact ou la boutique
+              pourront être différents de ceux que nous choisirons.
+            </p>
+            <a
+              className="confirm-button link-preview-action"
+              href={productLinkPreview.product_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setProductLinkPreview(null)}
+            >
+              Voir l’exemple en boutique
+            </a>
+          </section>
         </div>
       ) : null}
 
